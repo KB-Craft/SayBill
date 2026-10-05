@@ -36,7 +36,8 @@
   .brand { display: flex; align-items: center; gap: 12px; }
   .logo {
     width: 44px; height: 44px; border-radius: 12px; flex: none;
-    background: linear-gradient(135deg, #3c7bff, #1f4fc2);
+    background: #111111;
+    overflow: hidden;
     display: grid; place-items: center;
   }
   h1 { font-size: 1.6rem; line-height: 1.25; margin: 0; }
@@ -58,11 +59,13 @@
   <header>
     <div class="brand">
       <div class="logo" aria-hidden="true">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-          <path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="#fff"/>
-          <rect x="10.2" y="9" width="3.6" height="6.5" rx="1.8" fill="#111"/>
-          <path d="M8.6 13.4a3.4 3.4 0 0 0 6.8 0" stroke="#111" stroke-width="1.1" stroke-linecap="round"/>
-          <path d="M12 16.8v1.6" stroke="#111" stroke-width="1.1" stroke-linecap="round"/>
+        <!-- Icône de l'app : micro à capsule jaune marquée de l'euro, sur fond noir. -->
+        <svg width="44" height="44" viewBox="0 0 1024 1024" fill="none">
+          <rect x="377" y="158" width="270" height="440" rx="135" fill="#FACC15"/>
+          <path d="M 582.8 309.6 A 87.4 87.4 0 1 0 582.8 446.4" stroke="#111" stroke-width="46" stroke-linecap="round"/>
+          <path d="M 404.2 359 H 544.8 M 404.2 404.6 H 533.4" stroke="#111" stroke-width="34.5" stroke-linecap="round"/>
+          <path d="M 290 508 a 222 222 0 0 0 444 0" stroke="#fff" stroke-width="50" stroke-linecap="round"/>
+          <path d="M 512 733 V 823 M 400 838 H 624" stroke="#fff" stroke-width="50" stroke-linecap="round"/>
         </svg>
       </div>
       <div>
@@ -104,9 +107,10 @@
     <tr><td>Adresse e-mail</td><td>Créer votre compte et vous connecter (lien de connexion envoyé par e-mail)</td><td>Exécution du contrat</td></tr>
     <tr><td>Enregistrements vocaux (dictées)</td><td>Transcrire votre dictée en texte. L'enregistrement est envoyé pour transcription puis supprimé du téléphone ; il n'est pas conservé par SayBill</td><td>Exécution du contrat</td></tr>
     <tr><td>Texte de la dictée</td><td>Préparer automatiquement le brouillon du document (client, lignes, prix, TVA). Il est conservé dans le document pour que vous puissiez vérifier ce qui a été dicté</td><td>Exécution du contrat</td></tr>
-    <tr><td>Factures, avoirs, devis</td><td>Les afficher, les sauvegarder et les retrouver sur vos appareils ; attribuer des numéros uniques et continus</td><td>Exécution du contrat ; obligations légales de facturation</td></tr>
+    <tr><td>Factures, avoirs, devis (et dates des relances de paiement)</td><td>Les afficher, les sauvegarder et les retrouver sur vos appareils ; attribuer des numéros uniques et continus ; suivre les paiements en retard</td><td>Exécution du contrat ; obligations légales de facturation</td></tr>
     <tr><td>Informations de votre entreprise (nom, SIRET, adresse, e-mail, téléphone, IBAN, n° de TVA, logo)</td><td>Les faire figurer sur vos documents, comme la loi l'exige</td><td>Exécution du contrat</td></tr>
     <tr><td>Carnet de clients</td><td>Remplir automatiquement les coordonnées de vos clients</td><td>Exécution du contrat</td></tr>
+    <tr><td>Catalogue de prestations (désignations, prix habituels, unités, taux de TVA)</td><td>Compléter automatiquement les prix de vos documents</td><td>Exécution du contrat</td></tr>
     <tr><td>Compteur d'utilisation quotidien</td><td>Limiter le nombre de dictées par jour pour éviter les abus</td><td>Intérêt légitime</td></tr>
     <tr><td>Données techniques (adresse IP, date et heure des requêtes, journaux d'erreurs)</td><td>Faire fonctionner et sécuriser le service</td><td>Intérêt légitime</td></tr>
   </table>
@@ -115,13 +119,18 @@
     aucune donnée. Vos données ne servent pas à entraîner des modèles d'intelligence artificielle.</p>
   <p><strong>Autorisations du téléphone :</strong> le <em>micro</em>, uniquement pendant que vous dictez ;
     <em>Internet</em>, pour la transcription et la sauvegarde ; l'<em>empreinte digitale</em> si vous activez le verrouillage
-    de l'application. L'empreinte est vérifiée par Android : SayBill n'y a jamais accès.</p>
+    de l'application. L'empreinte est vérifiée par Android : SayBill n'y a jamais accès. Les <em>notifications</em>,
+    si vous les autorisez, servent uniquement à vous rappeler une facture impayée le lendemain de son échéance ;
+    elles sont programmées sur le téléphone, sans service de notification externe.</p>
+  <p><strong>Envoi des documents par e-mail :</strong> SayBill ouvre votre propre application de messagerie avec
+    le message et le PDF déjà préparés. C'est votre messagerie qui envoie l'e-mail : SayBill ne l'envoie pas lui-même
+    et n'en conserve pas de copie.</p>
 
   <h2 id="prestataires">3. Prestataires et transferts hors de l'Union européenne</h2>
   <div class="table-wrap">
   <table>
     <tr><th>Prestataire</th><th>Rôle</th><th>Données</th><th>Localisation</th></tr>
-    <tr><td>Supabase</td><td>Hébergement du compte et de la sauvegarde</td><td>E-mail, documents, profil, clients, compteur d'utilisation</td><td>Union européenne (Paris)</td></tr>
+    <tr><td>Supabase</td><td>Hébergement du compte et de la sauvegarde</td><td>E-mail, documents, profil, clients, catalogue, compteur d'utilisation</td><td>Union européenne (Paris)</td></tr>
     <tr><td>OpenAI (Whisper)</td><td>Transcription de la voix en texte</td><td>Enregistrement de la dictée</td><td>États-Unis</td></tr>
     <tr><td>Anthropic (Claude)</td><td>Préparation du brouillon à partir du texte dicté</td><td>Texte de la dictée</td><td>États-Unis</td></tr>
     <tr><td>Brevo</td><td>Envoi des e-mails de connexion</td><td>Adresse e-mail</td><td>Union européenne (France)</td></tr>
@@ -135,7 +144,7 @@
   <h2 id="conservation">4. Durées de conservation</h2>
   <ul>
     <li><strong>Enregistrements vocaux :</strong> supprimés du téléphone dès la fin du traitement ; jamais stockés par SayBill.</li>
-    <li><strong>Compte, documents, profil et clients :</strong> conservés tant que votre compte existe, puis supprimés
+    <li><strong>Compte, documents, profil, clients et catalogue :</strong> conservés tant que votre compte existe, puis supprimés
       lorsque vous supprimez votre compte.</li>
     <li><strong>Compteur d'utilisation :</strong> supprimé avec le compte.</li>
     <li><strong>Journaux techniques :</strong> durée courte fixée par l'hébergeur, utilisée seulement pour le fonctionnement et la sécurité.</li>
@@ -167,7 +176,7 @@
   <h2 id="suppression">7. Supprimer votre compte et vos données</h2>
   <p><strong>Depuis l'application :</strong> menu <em>⋮</em> en haut à droite de l'écran d'accueil →
     <em>Supprimer mon compte</em>, puis confirmez. Votre compte et toutes les données associées sur le serveur
-    (factures, avoirs, devis, profil d'entreprise, clients, compteurs) sont supprimés immédiatement et définitivement,
+    (factures, avoirs, devis, profil d'entreprise, clients, catalogue de prestations, compteurs) sont supprimés immédiatement et définitivement,
     ainsi que les données stockées sur le téléphone.</p>
   <p><strong>Sans l'application :</strong> envoyez un e-mail à <a href="mailto:kb.videolab@gmail.com?subject=Suppression%20de%20mon%20compte%20SayBill">kb.videolab@gmail.com</a>
     depuis l'adresse de votre compte SayBill, avec l'objet « Suppression de mon compte SayBill ». La suppression est
