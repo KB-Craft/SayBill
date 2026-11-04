@@ -70,7 +70,7 @@
       </div>
       <div>
         <h1>Politique de confidentialité de SayBill</h1>
-        <div class="muted">Dernière mise à jour : 29 octobre 2026</div>
+        <div class="muted">Dernière mise à jour : 5 novembre 2026</div>
       </div>
     </div>
   </header>
@@ -104,11 +104,12 @@
   <div class="table-wrap">
   <table>
     <tr><th>Données</th><th>Pourquoi</th><th>Base légale</th></tr>
-    <tr><td>Adresse e-mail</td><td>Créer votre compte et vous connecter (lien de connexion envoyé par e-mail)</td><td>Exécution du contrat</td></tr>
+    <tr><td>Adresse e-mail</td><td>Créer votre compte et vous connecter (code de connexion envoyé par e-mail)</td><td>Exécution du contrat</td></tr>
     <tr><td>Enregistrements vocaux (dictées)</td><td>Transcrire votre dictée en texte. L'enregistrement est envoyé pour transcription puis supprimé du téléphone ; il n'est pas conservé par SayBill</td><td>Exécution du contrat</td></tr>
     <tr><td>Texte de la dictée</td><td>Préparer automatiquement le brouillon du document (client, lignes, prix, TVA). Il est conservé dans le document pour que vous puissiez vérifier ce qui a été dicté</td><td>Exécution du contrat</td></tr>
-    <tr><td>Factures, avoirs, devis (et dates des relances de paiement)</td><td>Les afficher, les sauvegarder et les retrouver sur vos appareils ; attribuer des numéros uniques et continus ; suivre les paiements en retard</td><td>Exécution du contrat ; obligations légales de facturation</td></tr>
-    <tr><td>Informations de votre entreprise (nom, SIRET, adresse, e-mail, téléphone, IBAN, n° de TVA, logo)</td><td>Les faire figurer sur vos documents, comme la loi l'exige</td><td>Exécution du contrat</td></tr>
+    <tr><td>Factures, avoirs, devis (et dates des relances de paiement, date et mode des paiements reçus)</td><td>Les afficher, les sauvegarder et les retrouver sur vos appareils ; attribuer des numéros uniques et continus ; suivre les paiements en retard ; tenir votre livre des recettes</td><td>Exécution du contrat ; obligations légales de facturation</td></tr>
+    <tr><td>Informations de votre entreprise (nom, SIRET, adresse, e-mail, téléphone, IBAN, n° de TVA, logo, assurance professionnelle, e-mail de votre comptable)</td><td>Les faire figurer sur vos documents, comme la loi l'exige ; préparer l'envoi de vos documents à votre comptable</td><td>Exécution du contrat</td></tr>
+    <tr><td>Facture électronique (si vous connectez votre entreprise à la plateforme agréée) : autorisation de connexion, factures transmises et leurs statuts, montants encaissés déclarés</td><td>Transmettre vos factures à la plateforme de vos clients et suivre leur traitement, comme l'exige la réforme de la facturation électronique</td><td>Obligation légale ; exécution du contrat</td></tr>
     <tr><td>Carnet de clients</td><td>Remplir automatiquement les coordonnées de vos clients</td><td>Exécution du contrat</td></tr>
     <tr><td>Catalogue de prestations (désignations, prix habituels, unités, taux de TVA)</td><td>Compléter automatiquement les prix de vos documents</td><td>Exécution du contrat</td></tr>
     <tr><td>Compteur d'utilisation quotidien</td><td>Limiter le nombre de dictées par jour pour éviter les abus</td><td>Intérêt légitime</td></tr>
@@ -123,8 +124,8 @@
     si vous les autorisez, servent uniquement à vous rappeler une facture impayée le lendemain de son échéance ;
     elles sont programmées sur le téléphone, sans service de notification externe.</p>
   <p><strong>Envoi des documents par e-mail :</strong> SayBill ouvre votre propre application de messagerie avec
-    le message et le PDF déjà préparés. C'est votre messagerie qui envoie l'e-mail : SayBill ne l'envoie pas lui-même
-    et n'en conserve pas de copie.</p>
+    le message et le PDF déjà préparés (de même pour l'envoi de vos documents à votre comptable). C'est votre messagerie
+    qui envoie l'e-mail : SayBill ne l'envoie pas lui-même et n'en conserve pas de copie.</p>
 
   <h2 id="prestataires">3. Prestataires et transferts hors de l'Union européenne</h2>
   <div class="table-wrap">
@@ -134,6 +135,7 @@
     <tr><td>OpenAI (Whisper)</td><td>Transcription de la voix en texte</td><td>Enregistrement de la dictée</td><td>États-Unis</td></tr>
     <tr><td>Anthropic (Claude)</td><td>Préparation du brouillon à partir du texte dicté</td><td>Texte de la dictée</td><td>États-Unis</td></tr>
     <tr><td>Brevo</td><td>Envoi des e-mails de connexion</td><td>Adresse e-mail</td><td>Union européenne (France)</td></tr>
+    <tr><td>SUPER PDP</td><td>Plateforme agréée de facturation électronique (si vous la connectez) : transmission de vos factures à la plateforme de vos clients, suivi des statuts</td><td>Factures transmises (avec les informations de vos clients qu'elles contiennent), nom et SIREN de votre entreprise, montants encaissés déclarés</td><td>France</td></tr>
   </table>
   </div>
   <p>OpenAI et Anthropic reçoivent les dictées via le serveur SayBill, sans votre adresse e-mail. Selon leurs conditions
@@ -147,6 +149,8 @@
     <li><strong>Compte, documents, profil, clients et catalogue :</strong> conservés tant que votre compte existe, puis supprimés
       lorsque vous supprimez votre compte.</li>
     <li><strong>Compteur d'utilisation :</strong> supprimé avec le compte.</li>
+    <li><strong>Connexion à la plateforme agréée :</strong> supprimée quand vous la déconnectez ou supprimez votre compte. Les factures
+      déjà transmises restent conservées par la plateforme agréée, selon ses propres obligations légales d'archivage.</li>
     <li><strong>Journaux techniques :</strong> durée courte fixée par l'hébergeur, utilisée seulement pour le fonctionnement et la sécurité.</li>
   </ul>
   <div class="card">
@@ -161,7 +165,8 @@
     <li>Chaque compte n'accède qu'à ses propres données (contrôle d'accès au niveau de la base de données).</li>
     <li>La session de connexion est stockée chiffrée sur le téléphone ; les données de l'application sont exclues des sauvegardes automatiques du téléphone.</li>
     <li>Verrouillage optionnel de l'application par empreinte ou code du téléphone.</li>
-    <li>Les clés d'accès aux services de transcription et d'intelligence artificielle restent sur le serveur, jamais dans l'application.</li>
+    <li>Les clés d'accès aux services de transcription et d'intelligence artificielle, ainsi que l'autorisation de connexion à la
+      plateforme agréée, restent sur le serveur, jamais dans l'application.</li>
   </ul>
 
   <h2 id="droits">6. Vos droits</h2>
