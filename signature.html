@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Signature du devis</title>
+<style>
+  :root {
+    --bg: #f6f5f2; --card: #ffffff; --text: #20232f; --muted: #5b5f6b; --line: #e2e1dc;
+    --accent: #e8743b; --accent-text: #ffffff; --ok: #1f7a4d; --err: #b3261e;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #15171d; --card: #1f222a; --text: #eceae4; --muted: #a3a6ae; --line: #343844; --ok: #5cc48d; --err: #ff8a80; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 560px; margin: 0 auto; padding: 24px 16px 48px; }
+  h1 { font-size: 1.4rem; margin: 0 0 4px; }
+  .muted { color: var(--muted); font-size: .9rem; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px; margin: 16px 0; }
+  .row { display: flex; justify-content: space-between; gap: 12px; padding: 4px 0; }
+  .row b { text-align: right; }
+  .btn { display: inline-block; width: 100%; padding: 14px 16px; border-radius: 10px; border: 0; font: inherit; font-weight: 600; cursor: pointer; text-align: center; text-decoration: none; }
+  .btn-main { background: var(--accent); color: var(--accent-text); }
+  .btn-main:disabled { opacity: .45; cursor: not-allowed; }
+  .btn-light { background: transparent; color: var(--text); border: 1px solid var(--line); }
+  label { display: block; font-weight: 600; margin: 12px 0 6px; }
+  input[type=text] { width: 100%; padding: 12px; border: 1px solid var(--line); border-radius: 8px; font: inherit; background: var(--card); color: var(--text); }
+  .check { display: flex; gap: 10px; align-items: flex-start; font-weight: 400; }
+  .check input { width: 22px; height: 22px; margin-top: 2px; flex: none; }
+  canvas { width: 100%; height: 180px; border: 1px dashed var(--muted); border-radius: 8px; background: #fff; touch-action: none; display: block; }
+  .pad-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 6px; }
+  .link { background: none; border: 0; color: var(--accent); font: inherit; cursor: pointer; padding: 4px 0; }
+  .ok { color: var(--ok); font-weight: 600; }
+  .err { color: var(--err); }
+  .hidden { display: none; }
+  footer { margin-top: 32px; font-size: .8rem; color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <div id="loading" class="muted">Chargement du devis…</div>
+
+  <div id="message" class="hidden card"></div>
+
+  <div id="quote" class="hidden">
+    <h1>Devis n° <span id="number"></span></h1>
+    <div class="muted">de <span id="seller"></span></div>
+
+    <div class="card">
+      <div class="row"><span>Pour</span><b id="client"></b></div>
+      <div class="row"><span>Montant</span><b id="total"></b></div>
+      <div class="row" id="validRow"><span>Valable jusqu'au</span><b id="valid"></b></div>
+      <p style="margin:12px 0 0"><button class="btn btn-light" id="openPdf" type="button">Lire le devis (PDF)</button></p>
+    </div>
+
+    <form id="form" class="card" autocomplete="on">
+      <label class="check"><input type="checkbox" id="accepted">
+        <span>J'ai lu ce devis et je l'accepte : <b>bon pour accord</b>.</span></label>
+
+      <label for="name">Votre nom et prénom</label>
+      <input type="text" id="name" autocomplete="name" maxlength="100" required>
+
+      <label>Signature</label>
+      <canvas id="pad" aria-label="Zone de signature : signez avec le doigt ou la souris"></canvas>
+      <div class="pad-actions">
+        <span class="muted">Signez avec le doigt ou la souris</span>
+        <button class="link" id="clear" type="button">Effacer</button>
+      </div>
+
+      <p id="formError" class="err hidden"></p>
+      <p style="margin:16px 0 0"><button class="btn btn-main" id="submit" type="submit" disabled>Signer le devis</button></p>
+      <p class="muted" style="margin:12px 0 0">En signant, vous acceptez ce devis. La date, l'heure et l'adresse de connexion
+        sont enregistrées comme preuve de la signature.</p>
+    </form>
+  </div>
+
+  <footer>Signature électronique proposée par SayBill, application de KB Craft. <a href="confidentialite.html" style="color:inherit">Données personnelles</a></footer>
+</main>
+<script>
+(() => {
+  const API = "https://czglcsltjxlrkbgzwrec.supabase.co/functions/v1/quote-sign";
+  const token = decodeURIComponent(location.hash.slice(1));
+  const $ = (id) => document.getElementById(id);
+  const euro = (c) => (c / 100).toLocaleString("fr-FR", { style: "currency", currency: "EUR" });
+  const date = (s) => new Date(s.length === 10 ? s + "T12:00:00" : s).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
+  const time = (s) => new Date(s).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
+  let pdfUrl = null;
+
+  const call = async (payload) => {
+    const res = await fetch(API, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(payload) });
+    const body = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(body.error || "network");
+    return body;
+  };
+
+  const show = (html) => {
+    $("loading").classList.add("hidden");
+    $("message").innerHTML = html;
+    $("message").classList.remove("hidden");
+  };
+
+  // Zone de signature (pointeur : doigt, stylet ou souris).
+  const pad = $("pad");
+  const ctx = pad.getContext("2d");
+  let drawing = false, drawn = false;
+  const resize = () => {
+    const r = pad.getBoundingClientRect(), k = window.devicePixelRatio || 1;
+    pad.width = r.width * k; pad.height = r.height * k;
+    ctx.setTransform(k, 0, 0, k, 0, 0);
+    ctx.lineWidth = 2.2; ctx.lineCap = "round"; ctx.lineJoin = "round"; ctx.strokeStyle = "#111";
+    drawn = false; update();
+  };
+  const point = (e) => { const r = pad.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+  pad.addEventListener("pointerdown", (e) => { drawing = true; pad.setPointerCapture(e.pointerId); ctx.beginPath(); ctx.moveTo(...point(e)); });
+  pad.addEventListener("pointermove", (e) => { if (!drawing) return; ctx.lineTo(...point(e)); ctx.stroke(); drawn = true; update(); });
+  const stop = () => { drawing = false; };
+  pad.addEventListener("pointerup", stop); pad.addEventListener("pointercancel", stop);
+  $("clear").addEventListener("click", resize);
+
+  const update = () => {
+    $("submit").disabled = !($("accepted").checked && $("name").value.trim().length >= 2 && drawn);
+  };
+  $("accepted").addEventListener("change", update);
+  $("name").addEventListener("input", update);
+
+  $("openPdf").addEventListener("click", () => { if (pdfUrl) window.open(pdfUrl, "_blank"); });
+
+  $("form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    $("submit").disabled = true;
+    $("formError").classList.add("hidden");
+    try {
+      await call({ action: "sign", token, name: $("name").value.trim(), accepted: true, signature_png: pad.toDataURL("image/png") });
+      $("quote").classList.add("hidden");
+      const now = new Date().toISOString();
+      show(`<p class="ok">Merci, le devis est signé.</p><p>Signé par ${escape($("name").value.trim())} le ${date(now)} à ${time(now)}.
+        Votre prestataire est prévenu.</p><p><button class="btn btn-light" type="button" id="again">Revoir le devis (PDF)</button></p>`);
+      $("again").addEventListener("click", () => window.open(pdfUrl, "_blank"));
+    } catch (err) {
+      const msg = { already_signed: "Ce devis a déjà été signé.", expired: "Ce devis n'est plus valable.", not_found: "Ce lien n'est plus valable." }[err.message]
+        || "La signature n'a pas pu être enregistrée. Vérifiez votre connexion et réessayez.";
+      $("formError").textContent = msg;
+      $("formError").classList.remove("hidden");
+      update();
+    }
+  });
+
+  const escape = (s) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+  (async () => {
+    if (token.length < 40) return show("<p>Ce lien est incomplet. Demandez un nouveau lien à votre prestataire.</p>");
+    try {
+      const q = await call({ action: "view", token });
+      const bytes = Uint8Array.from(atob(q.pdf_base64), (c) => c.charCodeAt(0));
+      pdfUrl = URL.createObjectURL(new Blob([bytes], { type: "application/pdf" }));
+      $("number").textContent = q.quote_number;
+      $("seller").textContent = q.seller_name;
+      $("client").textContent = q.client_name;
+      $("total").textContent = euro(q.total_cents);
+      if (q.valid_until) $("valid").textContent = date(q.valid_until); else $("validRow").classList.add("hidden");
+      document.title = `Devis n° ${q.quote_number}`;
+      if (q.status === "signed") {
+        return show(`<p class="ok">Ce devis a déjà été signé</p><p>par ${escape(q.signer_name || "")} le ${date(q.signed_at)} à ${time(q.signed_at)}.</p>
+          <p><button class="btn btn-light" type="button" id="again">Revoir le devis (PDF)</button></p>`), $("again").addEventListener("click", () => window.open(pdfUrl, "_blank"));
+      }
+      if (q.status === "expired") {
+        return show(`<p>Ce devis n'est plus valable depuis le ${date(q.valid_until)}. Demandez un nouveau devis à ${escape(q.seller_name)}.</p>`);
+      }
+      $("loading").classList.add("hidden");
+      $("quote").classList.remove("hidden");
+      resize();
+    } catch (err) {
+      show(err.message === "not_found"
+        ? "<p>Ce lien n'est plus valable : un nouveau lien a peut-être été envoyé. Demandez-le à votre prestataire.</p>"
+        : "<p class='err'>Le devis n'a pas pu être chargé. Vérifiez votre connexion et rechargez la page.</p>");
+    }
+  })();
+  window.addEventListener("resize", () => { if (!drawn) resize(); });
+})();
+</script>
+</body>
+</html>
