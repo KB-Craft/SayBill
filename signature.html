@@ -30,12 +30,16 @@
   input[type=text] { width: 100%; padding: 12px; border: 1px solid var(--line); border-radius: 8px; font: inherit; background: var(--card); color: var(--text); }
   .check { display: flex; gap: 10px; align-items: flex-start; font-weight: 400; }
   .check input { width: 22px; height: 22px; margin-top: 2px; flex: none; }
-  canvas { width: 100%; height: 180px; border: 1px dashed var(--muted); border-radius: 8px; background: #fff; touch-action: none; display: block; }
+  #pad { width: 100%; height: 180px; border: 1px dashed var(--muted); border-radius: 8px; background: #fff; touch-action: none; display: block; }
   .pad-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 6px; }
   .link { background: none; border: 0; color: var(--accent); font: inherit; cursor: pointer; padding: 4px 0; }
   .ok { color: var(--ok); font-weight: 600; }
   .err { color: var(--err); }
   .hidden { display: none; }
+  .pdf-actions { display: flex; gap: 12px; align-items: center; margin-top: 12px; }
+  .pdf-actions .btn { flex: 1; }
+  .pdf-actions a { white-space: nowrap; }
+  .page { display: block; width: 100%; height: auto; margin: 10px 0 0; border: 1px solid var(--line); background: #fff; }
   footer { margin-top: 32px; font-size: .8rem; color: var(--muted); }
 </style>
 </head>
@@ -53,7 +57,7 @@
       <div class="row"><span>Pour</span><b id="client"></b></div>
       <div class="row"><span>Montant</span><b id="total"></b></div>
       <div class="row" id="validRow"><span>Valable jusqu'au</span><b id="valid"></b></div>
-      <p style="margin:12px 0 0"><button class="btn btn-light" id="openPdf" type="button">Lire le devis (PDF)</button></p>
+      <div id="pdfSlot"></div>
     </div>
 
     <form id="form" class="card" autocomplete="on">
@@ -79,6 +83,7 @@
 
   <footer>Signature électronique proposée par SayBill, application de KB Craft. <a href="confidentialite.html" style="color:inherit">Données personnelles</a></footer>
 </main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>
 (() => {
   const API = "https://czglcsltjxlrkbgzwrec.supabase.co/functions/v1/quote-sign";
@@ -87,7 +92,44 @@
   const euro = (c) => (c / 100).toLocaleString("fr-FR", { style: "currency", currency: "EUR" });
   const date = (s) => new Date(s.length === 10 ? s + "T12:00:00" : s).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
   const time = (s) => new Date(s).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
-  let pdfUrl = null;
+  let pdfUrl = null, pdfBytes = null, pdfName = "devis.pdf";
+  const WORKER = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+  const NO_PREVIEW = '<p class="muted">Aperçu indisponible sur ce navigateur : utilisez « Télécharger le PDF ».</p>';
+
+  // Le devis s'affiche dans la page (les navigateurs de téléphone n'ouvrent
+  // pas toujours un PDF), avec un lien pour le télécharger.
+  const pdfSection = () => {
+    const wrap = document.createElement("div");
+    wrap.innerHTML = '<div class="pdf-actions"><button class="btn btn-light" type="button">Lire le devis</button>'
+      + '<a class="link" download>Télécharger le PDF</a></div><div class="hidden"></div>';
+    const btn = wrap.querySelector("button"), link = wrap.querySelector("a"), box = wrap.lastElementChild;
+    link.href = pdfUrl; link.download = pdfName;
+    btn.addEventListener("click", async () => {
+      const open = box.classList.toggle("hidden") === false;
+      btn.textContent = open ? "Masquer le devis" : "Lire le devis";
+      if (!open || box.dataset.done) return;
+      box.dataset.done = "1";
+      if (!window.pdfjsLib) { box.innerHTML = NO_PREVIEW; return; }
+      box.innerHTML = '<p class="muted">Chargement du devis…</p>';
+      try {
+        pdfjsLib.GlobalWorkerOptions.workerSrc = WORKER;
+        const doc = await pdfjsLib.getDocument({ data: pdfBytes.slice() }).promise;
+        box.innerHTML = "";
+        const k = Math.min(window.devicePixelRatio || 1, 3);
+        for (let i = 1; i <= doc.numPages; i++) {
+          const page = await doc.getPage(i);
+          const width = box.clientWidth || 320;
+          const vp = page.getViewport({ scale: (width / page.getViewport({ scale: 1 }).width) * k });
+          const c = document.createElement("canvas");
+          c.className = "page"; c.width = vp.width; c.height = vp.height;
+          c.setAttribute("aria-label", "Page " + i + " du devis");
+          box.appendChild(c);
+          await page.render({ canvasContext: c.getContext("2d"), viewport: vp }).promise;
+        }
+      } catch (e) { box.innerHTML = NO_PREVIEW; }
+    });
+    return wrap;
+  };
 
   const call = async (payload) => {
     const res = await fetch(API, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(payload) });
@@ -126,8 +168,6 @@
   $("accepted").addEventListener("change", update);
   $("name").addEventListener("input", update);
 
-  $("openPdf").addEventListener("click", () => { if (pdfUrl) window.open(pdfUrl, "_blank"); });
-
   $("form").addEventListener("submit", async (e) => {
     e.preventDefault();
     $("submit").disabled = true;
@@ -137,8 +177,8 @@
       $("quote").classList.add("hidden");
       const now = new Date().toISOString();
       show(`<p class="ok">Merci, le devis est signé.</p><p>Signé par ${escape($("name").value.trim())} le ${date(now)} à ${time(now)}.
-        Votre prestataire est prévenu.</p><p><button class="btn btn-light" type="button" id="again">Revoir le devis (PDF)</button></p>`);
-      $("again").addEventListener("click", () => window.open(pdfUrl, "_blank"));
+        Votre prestataire est prévenu.</p>`);
+      $("message").appendChild(pdfSection());
     } catch (err) {
       const msg = { already_signed: "Ce devis a déjà été signé.", expired: "Ce devis n'est plus valable.", not_found: "Ce lien n'est plus valable." }[err.message]
         || "La signature n'a pas pu être enregistrée. Vérifiez votre connexion et réessayez.";
@@ -155,7 +195,10 @@
     try {
       const q = await call({ action: "view", token });
       const bytes = Uint8Array.from(atob(q.pdf_base64), (c) => c.charCodeAt(0));
+      pdfBytes = bytes;
+      pdfName = `Devis-${q.quote_number}.pdf`;
       pdfUrl = URL.createObjectURL(new Blob([bytes], { type: "application/pdf" }));
+      $("pdfSlot").appendChild(pdfSection());
       $("number").textContent = q.quote_number;
       $("seller").textContent = q.seller_name;
       $("client").textContent = q.client_name;
@@ -164,7 +207,7 @@
       document.title = `Devis n° ${q.quote_number}`;
       if (q.status === "signed") {
         return show(`<p class="ok">Ce devis a déjà été signé</p><p>par ${escape(q.signer_name || "")} le ${date(q.signed_at)} à ${time(q.signed_at)}.</p>
-          <p><button class="btn btn-light" type="button" id="again">Revoir le devis (PDF)</button></p>`), $("again").addEventListener("click", () => window.open(pdfUrl, "_blank"));
+`), $("message").appendChild(pdfSection());
       }
       if (q.status === "expired") {
         return show(`<p>Ce devis n'est plus valable depuis le ${date(q.valid_until)}. Demandez un nouveau devis à ${escape(q.seller_name)}.</p>`);
