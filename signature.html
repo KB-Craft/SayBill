@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <meta name="referrer" content="no-referrer">
+<!-- Seuls ces sites peuvent fournir du code ou recevoir des données, et « eval »
+     est interdit : un PDF piégé ne peut pas lancer de programme (faille
+     CVE-2024-4367 de pdf.js). -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' https://cdnjs.cloudflare.com; worker-src blob:; connect-src https://czglcsltjxlrkbgzwrec.supabase.co; img-src 'self' data: blob:; style-src 'unsafe-inline'; font-src data:; base-uri 'none'; form-action 'none'">
 <title>Signature du devis</title>
 <style>
   :root {
@@ -83,7 +87,9 @@
 
   <footer>Signature électronique proposée par SayBill, application de KB Craft. <a href="confidentialite.html" style="color:inherit">Données personnelles</a></footer>
 </main>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"
+  integrity="sha512-q+4liFwdPC/bNdhUpZx6aXDx/h77yEQtn4I1slHydcbZK34nLaR3cAeYSJshoxIOq3mjEf7xJE8YWIUHMn+oCQ=="
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
 (() => {
   const API = "https://czglcsltjxlrkbgzwrec.supabase.co/functions/v1/quote-sign";
@@ -113,7 +119,9 @@
       box.innerHTML = '<p class="muted">Chargement du devis…</p>';
       try {
         pdfjsLib.GlobalWorkerOptions.workerSrc = WORKER;
-        const doc = await pdfjsLib.getDocument({ data: pdfBytes.slice() }).promise;
+        // isEvalSupported: false : parade officielle à la faille CVE-2024-4367
+        // (un PDF piégé pouvait lancer du code dans la page).
+        const doc = await pdfjsLib.getDocument({ data: pdfBytes.slice(), isEvalSupported: false }).promise;
         box.innerHTML = "";
         const k = Math.min(window.devicePixelRatio || 1, 3);
         for (let i = 1; i <= doc.numPages; i++) {
