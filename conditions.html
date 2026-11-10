@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SayBill – Conditions d'utilisation</title>
+<meta name="description" content="Conditions générales d'utilisation et de vente de l'application SayBill (facturation vocale).">
+<style>
+  :root {
+    --bg: #ffffff;
+    --text: #1a1a1a;
+    --muted: #5f6368;
+    --accent: #1f4fc2;
+    --line: #e3e6ec;
+    --card: #f5f7fb;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #121417;
+      --text: #e8eaed;
+      --muted: #a4a9b0;
+      --accent: #8fb0ff;
+      --line: #2c3036;
+      --card: #1b1e23;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  main { max-width: 760px; margin: 0 auto; padding: 32px 16px 64px; }
+  header { border-bottom: 1px solid var(--line); padding-bottom: 16px; margin-bottom: 24px; }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .logo {
+    width: 44px; height: 44px; border-radius: 12px; flex: none;
+    background: #111111;
+    overflow: hidden;
+    display: grid; place-items: center;
+  }
+  h1 { font-size: 1.6rem; line-height: 1.25; margin: 0; }
+  h2 { font-size: 1.15rem; margin: 32px 0 8px; color: var(--accent); }
+  p, li { overflow-wrap: anywhere; }
+  .muted { color: var(--muted); font-size: .9rem; }
+  table { width: 100%; border-collapse: collapse; font-size: .92rem; margin: 8px 0; }
+  th, td { text-align: left; vertical-align: top; padding: 8px; border-bottom: 1px solid var(--line); }
+  th { font-weight: 600; }
+  .table-wrap { overflow-x: auto; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px; margin: 12px 0; }
+  .todo { background: #fff3c4; color: #5c4400; padding: 0 4px; border-radius: 4px; }
+  a { color: var(--accent); }
+  nav ul { padding-left: 20px; margin: 8px 0; columns: 2; }
+  @media (max-width: 520px) { nav ul { columns: 1; } }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="brand">
+      <div class="logo" aria-hidden="true">
+        <!-- Icône de l'app : micro à capsule jaune marquée de l'euro, sur fond noir. -->
+        <svg width="44" height="44" viewBox="0 0 1024 1024" fill="none">
+          <rect x="377" y="158" width="270" height="440" rx="135" fill="#FACC15"/>
+          <path d="M 582.8 309.6 A 87.4 87.4 0 1 0 582.8 446.4" stroke="#111" stroke-width="46" stroke-linecap="round"/>
+          <path d="M 404.2 359 H 544.8 M 404.2 404.6 H 533.4" stroke="#111" stroke-width="34.5" stroke-linecap="round"/>
+          <path d="M 290 508 a 222 222 0 0 0 444 0" stroke="#fff" stroke-width="50" stroke-linecap="round"/>
+          <path d="M 512 733 V 823 M 400 838 H 624" stroke="#fff" stroke-width="50" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div>
+        <h1>Conditions d'utilisation de SayBill</h1>
+        <div class="muted">Version du 10 novembre 2026</div>
+      </div>
+    </div>
+  </header>
+
+  <p>Ces conditions encadrent l'utilisation de l'application SayBill et la vente de ses abonnements.
+    En créant un compte ou en utilisant SayBill, vous les acceptez. Elles se lisent avec la
+    <a href="confidentialite.html">politique de confidentialité</a>.</p>
+
+  <nav class="card">
+    <strong>Sommaire</strong>
+    <ul>
+      <li><a href="#editeur">Éditeur</a></li>
+      <li><a href="#service">Le service</a></li>
+      <li><a href="#public">Réservé aux professionnels</a></li>
+      <li><a href="#compte">Votre compte</a></li>
+      <li><a href="#abonnements">Essai et abonnements</a></li>
+      <li><a href="#limites">Limites d'utilisation</a></li>
+      <li><a href="#ia">Intelligence artificielle</a></li>
+      <li><a href="#documents">Vos documents</a></li>
+      <li><a href="#efacture">Facture électronique</a></li>
+      <li><a href="#signature">Signature des devis</a></li>
+      <li><a href="#engagements">Vos engagements</a></li>
+      <li><a href="#donnees">Données de vos clients</a></li>
+      <li><a href="#disponibilite">Disponibilité</a></li>
+      <li><a href="#responsabilite">Responsabilité</a></li>
+      <li><a href="#fin">Fin du contrat</a></li>
+      <li><a href="#modifications">Modifications</a></li>
+      <li><a href="#droit">Droit applicable</a></li>
+    </ul>
+  </nav>
+
+  <h2 id="editeur">1. Éditeur</h2>
+  <p>SayBill est éditée par KB Craft, nom commercial de Kévin Bourgoin, entrepreneur individuel (EI),
+    SIREN 131 233 207, 440 avenue de la Grand Pièce, 06370 Mouans-Sartoux, France.<br>
+    Contact : <a href="mailto:contact@kb-craft.fr">contact@kb-craft.fr</a></p>
+
+  <h2 id="service">2. Le service</h2>
+  <p>SayBill est une application Android qui permet de créer des factures, des avoirs et des devis en les dictant
+    ou en les tapant : transcription de la dictée, préparation automatique du brouillon, numérotation, PDF,
+    envoi par votre messagerie, relances, signature des devis à distance, export pour votre comptable,
+    et transmission des factures électroniques par une plateforme agréée.</p>
+
+  <h2 id="public">3. Réservé aux professionnels</h2>
+  <p>SayBill s'adresse aux professionnels (artisans, indépendants, micro-entrepreneurs, sociétés) qui l'utilisent
+    pour leur activité. En l'utilisant, vous agissez à titre professionnel : les règles de protection des
+    consommateurs, notamment le droit de rétractation, ne s'appliquent donc pas à ce contrat.</p>
+
+  <h2 id="compte">4. Votre compte</h2>
+  <ul>
+    <li>Vous vous connectez avec votre adresse e-mail et un code à usage unique. Gardez l'accès à cette adresse pour vous :
+      toute action faite depuis votre compte est réputée faite par vous.</li>
+    <li>Un compte correspond à une entreprise. Les informations de votre entreprise (nom, SIRET, adresse, TVA…) doivent
+      être exactes : elles figurent sur vos documents.</li>
+    <li>Prévenez-nous à <a href="mailto:contact@kb-craft.fr">contact@kb-craft.fr</a> si vous pensez que quelqu'un a utilisé votre compte.</li>
+  </ul>
+
+  <h2 id="abonnements">5. Essai et abonnements</h2>
+  <p><strong>Essai gratuit :</strong> 14 jours et 10 dictées, sans moyen de paiement ni engagement.
+    Un seul essai par entreprise.</p>
+  <div class="table-wrap">
+  <table>
+    <tr><th>Formule</th><th>Prix TTC</th><th>Dictées</th></tr>
+    <tr><td>Solo</td><td>12,99 € par mois ou 129,99 € par an</td><td>50 par mois</td></tr>
+    <tr><td>Pro</td><td>24,99 € par mois ou 249,99 € par an</td><td>200 par mois</td></tr>
+  </table>
+  </div>
+  <ul>
+    <li>Les deux formules comprennent les factures et devis tapés sans limite et la facture électronique.
+      Les dictées non utilisées ne sont pas reportées sur le mois suivant.</li>
+    <li><strong>Paiement :</strong> l'abonnement est acheté et payé dans Google Play, selon les conditions de Google.
+      SayBill n'a jamais accès à vos coordonnées bancaires. Le prix affiché dans Google Play au moment de l'achat fait foi.</li>
+    <li><strong>Renouvellement :</strong> l'abonnement se renouvelle automatiquement à la fin de chaque période
+      (mois ou année), jusqu'à sa résiliation.</li>
+    <li><strong>Résiliation :</strong> à tout moment, dans Google Play (Paiements et abonnements), ou depuis
+      SayBill (<em>Mon abonnement</em> → <em>Gérer sur Google Play</em>). Elle prend effet à la fin de la période déjà
+      payée : aucune période entamée n'est remboursée, sauf décision de Google selon ses propres règles de remboursement.</li>
+    <li><strong>Changement de formule :</strong> possible à tout moment ; Google Play calcule le prorata.</li>
+    <li><strong>Évolution des prix :</strong> un nouveau prix ne s'applique qu'au renouvellement suivant, après
+      information préalable par Google Play. Vous pouvez résilier avant qu'il ne s'applique.</li>
+    <li><strong>Sans abonnement</strong> (essai terminé ou abonnement arrêté) : vous gardez l'accès à vos documents,
+      à leur PDF et à leur export, et vous pouvez toujours émettre un avoir pour corriger une facture. Vous ne pouvez
+      plus dicter ni émettre de nouvelle facture ou de nouveau devis.</li>
+  </ul>
+
+  <h2 id="limites">6. Limites d'utilisation</h2>
+  <p>Pour que le service reste rapide et abordable pour tous :</p>
+  <ul>
+    <li>une dictée dure 3 minutes au plus ;</li>
+    <li>30 dictées par jour au plus, dans la limite des dictées de votre formule ;</li>
+    <li>30 liens de signature de devis par jour au plus.</li>
+  </ul>
+  <p>Ces limites peuvent évoluer ; elles sont affichées dans l'application.</p>
+
+  <h2 id="ia">7. Intelligence artificielle : relisez toujours</h2>
+  <div class="card">
+    Votre dictée est transcrite puis transformée en brouillon par des services d'intelligence artificielle
+    (OpenAI et Anthropic). Ces outils peuvent se tromper : nom mal compris, prix, quantité ou taux de TVA erroné,
+    ligne oubliée. <strong>Vous devez relire et corriger chaque document avant de l'émettre ou de l'envoyer.</strong>
+    Un document émis l'est sous votre seule responsabilité.
+  </div>
+
+  <h2 id="documents">8. Vos documents</h2>
+  <ul>
+    <li>Vos documents et vos données vous appartiennent. Vous pouvez les exporter à tout moment
+      (<em>Menu ⋮ → Exporter factures et devis</em>).</li>
+    <li>SayBill aide à respecter les règles de facturation (mentions obligatoires, numérotation continue, documents
+      émis non modifiables, avoirs), mais <strong>ne fournit aucun conseil juridique, fiscal ou comptable</strong>.
+      Le choix de votre régime de TVA, des taux appliqués et des mentions propres à votre activité reste de votre
+      responsabilité ; en cas de doute, demandez à votre expert-comptable.</li>
+    <li><strong>Conservation légale :</strong> la loi vous impose de conserver vos factures pendant 10 ans.
+      SayBill les sauvegarde tant que votre compte existe, mais cette sauvegarde ne remplace pas votre propre archivage :
+      exportez régulièrement vos documents, et toujours avant de supprimer votre compte.</li>
+  </ul>
+
+  <h2 id="efacture">9. Facture électronique</h2>
+  <p>La transmission des factures électroniques passe par SUPER PDP, plateforme agréée par l'administration fiscale.
+    Pour l'utiliser, vous reliez votre entreprise à cette plateforme depuis SayBill, ce qui comprend une vérification de
+    votre identité par la plateforme et l'acceptation de ses propres conditions. SayBill transmet vos factures et
+    affiche leur suivi ; la plateforme est responsable de leur acheminement et de leur archivage, selon ses obligations
+    légales.</p>
+
+  <h2 id="signature">10. Signature des devis à distance</h2>
+  <p>Votre client reçoit un lien personnel pour lire le devis et le signer en ligne. SayBill conserve la preuve de sa
+    signature : nom, image de la signature, date et heure, adresses de connexion, navigateur et empreinte du PDF signé.
+    Il s'agit d'une signature électronique simple au sens du règlement européen eIDAS : elle convient aux devis
+    courants, mais sa valeur de preuve reste appréciée par le juge en cas de litige. Pour un engagement important,
+    une signature électronique qualifiée peut être préférable.</p>
+
+  <h2 id="engagements">11. Vos engagements</h2>
+  <p>Vous vous engagez à :</p>
+  <ul>
+    <li>utiliser SayBill pour une activité légale et émettre des documents sincères (pas de fausse facture ni de
+      document trompeur) ;</li>
+    <li>ne pas contourner les limites, le paiement ou la sécurité du service, ne pas l'utiliser de façon automatisée
+      (scripts, robots) en dehors de l'application, et ne pas chercher à accéder aux données d'autres utilisateurs ;</li>
+    <li>ne pas utiliser la signature à distance pour envoyer autre chose que vos propres devis.</li>
+  </ul>
+
+  <h2 id="donnees">12. Données de vos clients</h2>
+  <p>Pour les données de vos clients que vous saisissez (noms, adresses, e-mails…), vous êtes responsable du traitement
+    et KB Craft agit comme sous-traitant, au sens de l'article 28 du RGPD. À ce titre, KB Craft s'engage à :</p>
+  <ul>
+    <li>ne traiter ces données que pour fournir le service, selon vos instructions (l'utilisation de l'application) ;</li>
+    <li>en assurer la sécurité et la confidentialité, et faire respecter les mêmes obligations à ses propres
+      prestataires, listés dans la <a href="confidentialite.html#prestataires">politique de confidentialité</a> ;</li>
+    <li>vous prévenir sans délai excessif en cas de violation de données vous concernant ;</li>
+    <li>vous aider à répondre aux demandes de vos clients concernant leurs données ;</li>
+    <li>supprimer ces données à la suppression de votre compte, une fois que vous avez pu les exporter.</li>
+  </ul>
+  <p>Vous restez chargé d'informer vos clients de l'utilisation de leurs données pour votre facturation.</p>
+
+  <h2 id="disponibilite">13. Disponibilité</h2>
+  <p>KB Craft fait ses meilleurs efforts pour que SayBill fonctionne en continu, sans pouvoir le garantir : maintenance,
+    panne d'un prestataire (hébergement, transcription, intelligence artificielle, plateforme agréée, Google Play) ou
+    absence de réseau peuvent interrompre tout ou partie du service. Les documents déjà créés restent consultables
+    sur votre téléphone. Le service peut évoluer (ajout, modification ou retrait de fonctionnalités) ; un retrait
+    important vous sera annoncé à l'avance.</p>
+
+  <h2 id="responsabilite">14. Responsabilité</h2>
+  <ul>
+    <li>KB Craft est responsable des dommages directs qu'elle cause par sa faute. Sa responsabilité est limitée au
+      montant que vous avez payé pour SayBill au cours des 12 mois précédant le dommage.</li>
+    <li>KB Craft n'est pas responsable des dommages indirects (perte de chiffre d'affaires, de clientèle ou de
+      données que vous n'aviez pas exportées), ni des conséquences d'un document émis sans avoir été relu, d'une
+      information inexacte que vous avez saisie, ou d'une utilisation contraire à ces conditions.</li>
+    <li>Ces limites ne s'appliquent pas en cas de faute lourde ou intentionnelle, ni lorsque la loi les interdit.</li>
+  </ul>
+
+  <h2 id="fin">15. Fin du contrat</h2>
+  <ul>
+    <li><strong>Par vous :</strong> à tout moment, en supprimant votre compte (<em>Menu ⋮ → Supprimer mon compte</em>).
+      Supprimer votre compte n'arrête pas un abonnement Google Play : pensez à le résilier dans Google Play.
+      Exportez vos documents avant : la suppression est immédiate et définitive.</li>
+    <li><strong>Par KB Craft :</strong> en cas de manquement grave à ces conditions (fraude, abus, atteinte à la sécurité),
+      votre compte peut être suspendu ou fermé, après un avertissement par e-mail sauf urgence. Vous disposez alors
+      de 30 jours pour exporter vos documents, sauf si la loi s'y oppose.</li>
+    <li>Si KB Craft devait arrêter SayBill, vous en seriez prévenu au moins 3 mois à l'avance pour récupérer vos
+      documents, et aucun nouveau renouvellement ne serait facturé.</li>
+  </ul>
+
+  <h2 id="modifications">16. Modifications</h2>
+  <p>Ces conditions peuvent évoluer (nouvelle fonctionnalité, nouvelle formule, changement de la loi). Une modification
+    importante vous est annoncée dans l'application ou par e-mail au moins 30 jours avant de s'appliquer ; si vous
+    la refusez, vous pouvez résilier votre abonnement et supprimer votre compte. La version en vigueur est toujours
+    sur cette page, avec sa date.</p>
+
+  <h2 id="droit">17. Droit applicable et litiges</h2>
+  <p>Ces conditions sont soumises au droit français. En cas de désaccord, écrivez d'abord à
+    <a href="mailto:contact@kb-craft.fr">contact@kb-craft.fr</a> pour chercher une solution amiable.
+    À défaut d'accord dans un délai de 30 jours, le litige sera porté devant les tribunaux compétents du ressort
+    du siège de KB Craft, les deux parties agissant en qualité de professionnels.</p>
+</main>
+</body>
+</html>
