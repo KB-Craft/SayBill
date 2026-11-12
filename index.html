@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KB Craft – SayBill, la facture à la voix</title>
+<meta name="description" content="KB Craft édite SayBill, l'application Android qui rédige vos factures et devis à partir de votre voix.">
+<style>
+  :root {
+    --bg: #ffffff;
+    --text: #1a1a1a;
+    --muted: #5f6368;
+    --accent: #1f4fc2;
+    --line: #e3e6ec;
+    --card: #f5f7fb;
+    --yellow: #facc15;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #121417;
+      --text: #e8eaed;
+      --muted: #a4a9b0;
+      --accent: #8fb0ff;
+      --line: #2c3036;
+      --card: #1b1e23;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  main { max-width: 760px; margin: 0 auto; padding: 32px 16px 64px; }
+  header { border-bottom: 1px solid var(--line); padding-bottom: 16px; margin-bottom: 32px; }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand strong { font-size: 1.2rem; }
+  .logo {
+    width: 44px; height: 44px; border-radius: 12px; flex: none;
+    background: #111111; overflow: hidden;
+    display: grid; place-items: center;
+  }
+  .hero { display: flex; gap: 24px; align-items: center; margin-bottom: 8px; }
+  .hero .logo { width: 96px; height: 96px; border-radius: 24px; }
+  h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 8px; }
+  h2 { font-size: 1.2rem; margin: 40px 0 8px; color: var(--accent); }
+  p, li { overflow-wrap: anywhere; }
+  .lead { font-size: 1.1rem; }
+  .muted { color: var(--muted); font-size: .9rem; }
+  .badge {
+    display: inline-block; background: var(--yellow); color: #111;
+    font-weight: 600; font-size: .9rem; padding: 4px 12px; border-radius: 999px;
+  }
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 12px 0; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px; }
+  .card strong { display: block; margin-bottom: 4px; }
+  .quote { font-style: italic; }
+  table { width: 100%; border-collapse: collapse; font-size: .95rem; margin: 8px 0; }
+  th, td { text-align: left; vertical-align: top; padding: 8px; border-bottom: 1px solid var(--line); }
+  th { font-weight: 600; }
+  .table-wrap { overflow-x: auto; }
+  a { color: var(--accent); }
+  footer { border-top: 1px solid var(--line); margin-top: 48px; padding-top: 16px; }
+  footer ul { list-style: none; padding: 0; margin: 0 0 12px; display: flex; flex-wrap: wrap; gap: 8px 20px; }
+  @media (max-width: 560px) {
+    .grid { grid-template-columns: 1fr; }
+    .hero { flex-direction: column; align-items: flex-start; }
+    h1 { font-size: 1.6rem; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="brand">
+      <span class="logo" aria-hidden="true">
+        <svg width="44" height="44" viewBox="0 0 1024 1024" fill="none">
+          <rect x="377" y="158" width="270" height="440" rx="135" fill="#FACC15"/>
+          <path d="M 582.8 309.6 A 87.4 87.4 0 1 0 582.8 446.4" stroke="#111" stroke-width="46" stroke-linecap="round"/>
+          <path d="M 404.2 359 H 544.8 M 404.2 404.6 H 533.4" stroke="#111" stroke-width="34.5" stroke-linecap="round"/>
+          <path d="M 290 508 a 222 222 0 0 0 444 0" stroke="#fff" stroke-width="50" stroke-linecap="round"/>
+          <path d="M 512 733 V 823 M 400 838 H 624" stroke="#fff" stroke-width="50" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <strong>KB Craft</strong>
+    </div>
+  </header>
+
+  <section class="hero">
+    <span class="logo" aria-hidden="true">
+      <svg width="96" height="96" viewBox="0 0 1024 1024" fill="none">
+        <rect x="377" y="158" width="270" height="440" rx="135" fill="#FACC15"/>
+        <path d="M 582.8 309.6 A 87.4 87.4 0 1 0 582.8 446.4" stroke="#111" stroke-width="46" stroke-linecap="round"/>
+        <path d="M 404.2 359 H 544.8 M 404.2 404.6 H 533.4" stroke="#111" stroke-width="34.5" stroke-linecap="round"/>
+        <path d="M 290 508 a 222 222 0 0 0 444 0" stroke="#fff" stroke-width="50" stroke-linecap="round"/>
+        <path d="M 512 733 V 823 M 400 838 H 624" stroke="#fff" stroke-width="50" stroke-linecap="round"/>
+      </svg>
+    </span>
+    <div>
+      <h1>SayBill, la facture à la voix</h1>
+      <p class="lead">Dictez votre facture ou votre devis en quelques secondes : SayBill le rédige pour vous.
+        Vous relisez, vous envoyez.</p>
+      <span class="badge">Bientôt sur Google Play (Android)</span>
+    </div>
+  </section>
+
+  <h2>Pour qui ?</h2>
+  <p>Pour les artisans, indépendants et micro-entrepreneurs qui préfèrent passer leur soirée ailleurs que dans la paperasse.</p>
+
+  <h2>Comment ça marche</h2>
+  <div class="grid">
+    <div class="card"><strong>1. Vous dictez</strong>
+      <span class="quote">« Facture pour Marie Dupont, 3 heures de plomberie à 45 euros, un robinet à 60 euros, TVA 10 %. »</span></div>
+    <div class="card"><strong>2. SayBill rédige</strong>
+      Client, prestations, quantités, prix et TVA sont remplis dans un brouillon.</div>
+    <div class="card"><strong>3. Vous vérifiez</strong>
+      Vous corrigez si besoin : rien n'est envoyé sans votre accord.</div>
+    <div class="card"><strong>4. Vous envoyez</strong>
+      Le PDF part par e-mail, avec un QR code de virement pour être payé plus vite.</div>
+  </div>
+
+  <h2>Ce que fait SayBill</h2>
+  <ul>
+    <li>Factures, devis et avoirs, avec numérotation automatique et documents verrouillés après envoi</li>
+    <li>Signature des devis à distance par votre client</li>
+    <li>Franchise de TVA ou TVA facturée, plusieurs taux, remises et unités</li>
+    <li>Suivi des paiements, relances des factures en retard</li>
+    <li>Tableau de bord : chiffre d'affaires, encaissements, plafond de la franchise de TVA</li>
+    <li>Facture électronique</li>
+  </ul>
+
+  <h2>Tarifs</h2>
+  <p>Essai gratuit de 14 jours et 10 dictées, sans moyen de paiement.</p>
+  <div class="table-wrap">
+  <table>
+    <tr><th>Formule</th><th>Prix TTC</th><th>Dictées</th></tr>
+    <tr><td>Solo</td><td>12,99 € par mois ou 129,99 € par an</td><td>50 par mois</td></tr>
+    <tr><td>Pro</td><td>24,99 € par mois ou 249,99 € par an</td><td>200 par mois</td></tr>
+  </table>
+  </div>
+  <p class="muted">Les factures et devis tapés sans dicter sont illimités dans les deux formules.
+    Abonnement payé dans Google Play.</p>
+
+  <h2>Contact</h2>
+  <p>Une question, un problème ? Écrivez à <a href="mailto:contact@kb-craft.fr">contact@kb-craft.fr</a>.</p>
+
+  <footer>
+    <ul>
+      <li><a href="conditions.html">Conditions d'utilisation</a></li>
+      <li><a href="confidentialite.html">Politique de confidentialité</a></li>
+      <li><a href="#mentions">Mentions légales</a></li>
+    </ul>
+    <div id="mentions" class="muted">
+      <p><strong>Mentions légales.</strong>
+        Éditeur : KB Craft, nom commercial de Kévin Bourgoin, entrepreneur individuel (EI),
+        SIREN 131 233 207, 440 avenue de la Grand Pièce, 06370 Mouans-Sartoux, France.
+        Contact : <a href="mailto:contact@kb-craft.fr">contact@kb-craft.fr</a>.
+        Directeur de la publication : Kévin Bourgoin.<br>
+        Hébergement : GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.<br>
+        Ce site n'utilise pas de cookies et ne mesure pas votre visite.</p>
+    </div>
+  </footer>
+</main>
+</body>
+</html>
